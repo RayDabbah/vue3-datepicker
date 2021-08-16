@@ -13,7 +13,7 @@ export default defineComponent({
   name: 'App',
   setup() {
 
-    const date = ref(new Date())
+    const date = ref()
 
     const setDate = (newDate) => date.value = newDate;
 
