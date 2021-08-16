@@ -15,7 +15,7 @@
       >
         <div>{{ date.getDate() }}</div>
       </div>
-      <div class="cell" v-for="n in (42 - amountOfDaysInMonth - startDate)"></div>
+      <div class="cell" v-for="n in (numberOfCells - amountOfDaysInMonth - startDate)"></div>
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@
 <script>
 
 import {ref, computed} from "vue";
-import {dow, months, range, sum} from "../utils.js";
+import {dow, months, range, sum, roundUpToMultipleOf} from "../utils.js";
 
 
 export default {
@@ -42,11 +42,12 @@ export default {
     const amountOfDaysInMonth = computed(() => 40 - (new Date(year.value, month.value, 40)).getDate());
     const daysInMonth = computed(() => range(amountOfDaysInMonth.value, 1).map(date => new Date(openMonthDate.value.getFullYear(), openMonthDate.value.getMonth(), date)))
     const setMonth = (operator) => openMonthDate.value = new Date(openMonthDate.value.getFullYear(), sum(openMonthDate.value.getMonth())(operator)(1));
-
+    const numberOfCells = computed(() => roundUpToMultipleOf(7, amountOfDaysInMonth.value + startDate.value))
 
     return {
       startDate,
       daysInMonth,
+      numberOfCells,
       dow,
       amountOfDaysInMonth,
       months,

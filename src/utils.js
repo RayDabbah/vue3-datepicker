@@ -18,3 +18,5 @@ export const sum = val1 => operator => val2 => {
             return val1 - val2;
     }
 }
+
+export const roundUpToMultipleOf = (multiple, num) => Math.ceil(num / multiple) * multiple;
