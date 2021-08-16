@@ -2,7 +2,7 @@
   <div class="calendar-wrapper">
     <header>
       <div @click="() => setMonth('-')" class="arrow">&lt;</div>
-      <div>{{ months[openMonthDate.getMonth()] }} {{openMonthDate.getFullYear()}}</div>
+      <div>{{ months[openMonthDate.getMonth()] }} {{ openMonthDate.getFullYear() }}</div>
       <div @click="() => setMonth('+')" class="arrow">&gt;</div>
     </header>
     <div class="calendar">
@@ -41,11 +41,7 @@ export default {
     const startDate = computed(() => new Date(year.value, month.value).getDay())
     const amountOfDaysInMonth = ref(40 - (new Date(year.value, month.value, 40)).getDate());
     const daysInMonth = computed(() => range(amountOfDaysInMonth.value, 1).map(date => new Date(openMonthDate.value.getFullYear(), openMonthDate.value.getMonth(), date)))
-    const setMonth = (operator) => {
-      console.log(operator);
-      openMonthDate.value = new Date(openMonthDate.value.getFullYear(), sum(openMonthDate.value.getMonth())(operator)(1));
-      console.log(month.value, year.value, openMonthDate.value);
-    };
+    const setMonth = (operator) => openMonthDate.value = new Date(openMonthDate.value.getFullYear(), sum(openMonthDate.value.getMonth())(operator)(1));
 
 
     return {
