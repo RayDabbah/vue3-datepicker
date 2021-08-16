@@ -1,14 +1,30 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png"/>
-  <DatePicker :openDate="new Date(2021, 8)"/>
+
+  <DatePicker @input="setDate"
+              :value="date"
+              :openOnDate="new Date(2021, 6)"/>
 </template>
 
 <script>
-import {defineComponent} from 'vue'
+import {defineComponent, ref} from 'vue'
 import DatePicker from "./components/DatePicker.vue";
 
 export default defineComponent({
   name: 'App',
+  setup() {
+
+    const date = ref(new Date())
+
+    const setDate = (newDate) => {
+      console.log(newDate);
+      return date.value = newDate;
+    };
+
+    return {
+      date,
+      setDate,
+    }
+  },
   components: {
     DatePicker,
   }
