@@ -39,7 +39,7 @@ export default {
     const year = computed(() => openMonthDate.value.getFullYear())
     const month = computed(() => openMonthDate.value.getMonth())
     const startDate = computed(() => new Date(year.value, month.value).getDay())
-    const amountOfDaysInMonth = ref(40 - (new Date(year.value, month.value, 40)).getDate());
+    const amountOfDaysInMonth = computed(() => 40 - (new Date(year.value, month.value, 40)).getDate());
     const daysInMonth = computed(() => range(amountOfDaysInMonth.value, 1).map(date => new Date(openMonthDate.value.getFullYear(), openMonthDate.value.getMonth(), date)))
     const setMonth = (operator) => openMonthDate.value = new Date(openMonthDate.value.getFullYear(), sum(openMonthDate.value.getMonth())(operator)(1));
 
