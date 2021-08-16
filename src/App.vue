@@ -1,16 +1,16 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <img alt="Vue logo" src="./assets/logo.png"/>
+  <DatePicker :openDate="new Date(2021, 8)"/>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
+<script>
+import {defineComponent} from 'vue'
+import DatePicker from "./components/DatePicker.vue";
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
+    DatePicker,
   }
 })
 </script>
