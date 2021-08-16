@@ -1,5 +1,5 @@
 <template>
-
+<h1>{{date}}</h1>
   <DatePicker @input="setDate"
               :value="date"
               :openOnDate="new Date(2021, 6)"/>
@@ -15,10 +15,7 @@ export default defineComponent({
 
     const date = ref(new Date())
 
-    const setDate = (newDate) => {
-      console.log(newDate);
-      return date.value = newDate;
-    };
+    const setDate = (newDate) => date.value = newDate;
 
     return {
       date,

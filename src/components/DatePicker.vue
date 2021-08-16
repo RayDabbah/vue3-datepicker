@@ -1,26 +1,28 @@
 <template>
-  <h1>{{ dow[startDate] }}</h1>
-  <h1>{{ startDate }}</h1>
-  <header>
-    <div>{{ months[openMonthDate.getMonth()] }}</div>
-  </header>
-  <div class="calendar">
-    <div class="cell" v-for="n in startDate"></div>
-    <div
-        @click="$emit('input', date)"
-        v-for="date in daysInMonth"
-        class="cell"
-        :class="{selected: date.getTime() === value?.getTime()}"
-    >
-      <div>{{ date.getDate() }}</div>
+  <div class="calendar-wrapper">
+    <header>
+      <div @click="() => setMonth('-')" class="arrow">&lt;</div>
+      <div>{{ months[openMonthDate.getMonth()] }} {{openMonthDate.getFullYear()}}</div>
+      <div @click="() => setMonth('+')" class="arrow">&gt;</div>
+    </header>
+    <div class="calendar">
+      <div class="cell" v-for="n in startDate"></div>
+      <div
+          @click="$emit('input', date)"
+          v-for="date in daysInMonth"
+          class="cell"
+          :class="{selected: date.getTime() === value?.getTime()}"
+      >
+        <div>{{ date.getDate() }}</div>
+      </div>
+      <div class="cell" v-for="n in (42 - amountOfDaysInMonth - startDate)"></div>
     </div>
-    <div class="cell" v-for="n in (42 - amountOfDaysInMonth - startDate)"></div>
   </div>
 </template>
 
 <script>
 
-import {ref} from "vue";
+import {ref, computed} from "vue";
 
 
 const dow = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -35,44 +37,70 @@ const range = (end, start = 0) => {
   return arr;
 }
 
+const sum = val1 => operator => val2 => {
+  switch (operator) {
+    case '+':
+      return val1 + val2;
+    case '-':
+      return val1 - val2;
+  }
+}
+window.sum = sum;
 export default {
   name: "DatePicker",
   props: {
     openOnDate: {type: Date, required: false},
     value: {type: Date, required: false,},
   },
+  emits: ['input'],
   setup(props) {
 
     const openMonthDate = ref(new Date(props.openOnDate?.getTime()))
-    const year = openMonthDate.value.getFullYear()
-    const month = openMonthDate.value.getMonth()
-    const startDate = ref(new Date(year, month).getDay())
-    const amountOfDaysInMonth = 40 - (new Date(year, month, 40)).getDate();
-    const daysInMonth = ref(range(amountOfDaysInMonth, 1).map(date => new Date(openMonthDate.value.getFullYear(), openMonthDate.value.getMonth(), date)))
+    const year = computed(() => openMonthDate.value.getFullYear())
+    const month = computed(() => openMonthDate.value.getMonth())
+    const startDate = computed(() => new Date(year.value, month.value).getDay())
+    const amountOfDaysInMonth = ref(40 - (new Date(year.value, month.value, 40)).getDate());
+    const daysInMonth = computed(() => range(amountOfDaysInMonth.value, 1).map(date => new Date(openMonthDate.value.getFullYear(), openMonthDate.value.getMonth(), date)))
+    const setMonth = (operator) => {
+      console.log(operator);
+      openMonthDate.value = new Date(openMonthDate.value.getFullYear(), sum(openMonthDate.value.getMonth())(operator)(1));
+      console.log(month.value, year.value, openMonthDate.value);
+    };
 
 
     return {
       startDate,
       daysInMonth,
       dow,
-      amountOfDaysInMonth: ref(amountOfDaysInMonth),
+      amountOfDaysInMonth,
       months,
       openMonthDate,
+      setMonth,
     }
   },
 }
 </script>
 
 <style scoped>
-.calendar {
+header {
+  display: flex;
+  /*align-items: center;*/
+  justify-content: space-between;
+}
+
+.calendar-wrapper {
   margin: 0 auto;
+  width: max-content;
+}
+
+.calendar {
   border: solid 1px black;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, 2rem);
+  grid-auto-rows: 2rem;
   gap: 1px;
   background-color: black;
-  width: 10rem;
-  height: 10rem;
+
 }
 
 .cell {
@@ -83,8 +111,19 @@ export default {
   align-items: center;
   cursor: pointer;
 }
-.selected{
+
+.selected {
   background-color: darkblue;
   color: white;
+}
+
+.arrow {
+  cursor: pointer;
+  font-weight: 500;
+  transition: 300ms;
+}
+
+.arrow:hover {
+  transform: scale(1.5);
 }
 </style>
