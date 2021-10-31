@@ -9,7 +9,7 @@
         v-if="!stayOpen"
     >
     <div class="container" ref="calendar">
-      <div v-if="open || stayOpen" class="calendar-wrapper">
+      <div v-if="open || stayOpen" class="calendar-wrapper" :class="{'toggle-calendar-wrapper': !stayOpen}">
         <header>
           <div
               @click="() => setMonth('-')"
@@ -151,14 +151,16 @@ header {
   position: relative;
   z-index: 1000;
 }
+.toggle-calendar-wrapper{
+  position: absolute;
+  left: 20%;
 
+}
 .calendar-wrapper {
   width: max-content;
   box-shadow: #8080801f 3px 3px 5px;
   padding: 5px;
   border-radius: 4px;
-  position: absolute;
-  left: 20%;
   background: white;
 }
 
