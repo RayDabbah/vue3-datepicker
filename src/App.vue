@@ -1,31 +1,32 @@
 <template>
-<h1>{{date}}</h1>
-  <DatePicker @input="setDate"
-              :value="date"
-              :openOnDate="new Date(2021, 6)"/>
+  <h1>{{date}}</h1>
+  <DatePicker
+    @input="setDate"
+    :value="date"
+    :openOnDate="new Date(2021, 6)"
+  />
 </template>
 
 <script>
-import {defineComponent, ref} from 'vue'
+import { defineComponent, ref } from "vue";
 import DatePicker from "./components/DatePicker.vue";
 
 export default defineComponent({
-  name: 'App',
+  name: "App",
   setup() {
+    const date = ref();
 
-    const date = ref()
-
-    const setDate = (newDate) => date.value = newDate;
+    const setDate = (newDate) => (date.value = newDate);
 
     return {
       date,
       setDate,
-    }
+    };
   },
   components: {
     DatePicker,
-  }
-})
+  },
+});
 </script>
 
 <style>
