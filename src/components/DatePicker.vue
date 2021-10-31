@@ -6,7 +6,7 @@
       type="text"
       readonly
       :value="selectedDate?.toLocaleDateString()">
-    <div style="position: relative" ref="calendar">
+    <div class="container" ref="calendar">
       <div v-if="open" class="calendar-wrapper">
         <header>
           <div
@@ -142,7 +142,10 @@ header {
   display: flex;
   justify-content: space-between;
 }
-
+.container{
+  position: relative;
+  z-index: 1000;
+}
 .calendar-wrapper {
   width: max-content;
   box-shadow: #8080801f 3px 3px 5px;
@@ -150,6 +153,7 @@ header {
   border-radius: 4px;
   position: absolute;
   left: 20%;
+  background: white;
 }
 
 .calendar {
