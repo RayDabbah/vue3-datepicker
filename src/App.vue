@@ -5,6 +5,7 @@
     @input="setDate"
     :value="date"
     :inputStyle="{background: 'lightgrey'}"
+    :stay-open="true"
   />
 </template>
 

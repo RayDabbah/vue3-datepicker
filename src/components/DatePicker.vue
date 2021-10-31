@@ -1,13 +1,15 @@
 <template>
   <div class="calendar-root">
     <input
-      @click="open = !open"
-      :style="inputStyle"
-      type="text"
-      readonly
-      :value="selectedDate?.toLocaleDateString()">
+        @click="open = !open"
+        :style="inputStyle"
+        type="text"
+        readonly
+        :value="selectedDate?.toLocaleDateString()"
+        v-if="!stayOpen"
+    >
     <div class="container" ref="calendar">
-      <div v-if="open" class="calendar-wrapper">
+      <div v-if="open || stayOpen" class="calendar-wrapper">
         <header>
           <div
               @click="() => setMonth('-')"
@@ -59,7 +61,8 @@ export default {
   props: {
     openOnDate: {type: Date, default: () => new Date()},
     value: {type: Date, required: false},
-    inputStyle: {type: [String, Object], required: false}
+    inputStyle: {type: [String, Object], required: false},
+    stayOpen: {type: Boolean, default: false,},
   },
   emits: ['input'],
   setup(props, {emit}) {
@@ -133,19 +136,22 @@ export default {
 </script>
 
 <style scoped>
-.calendar-root{
+.calendar-root {
   width: max-content;
   position: relative;
   display: inline-block;
 }
+
 header {
   display: flex;
   justify-content: space-between;
 }
-.container{
+
+.container {
   position: relative;
   z-index: 1000;
 }
+
 .calendar-wrapper {
   width: max-content;
   box-shadow: #8080801f 3px 3px 5px;
