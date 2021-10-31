@@ -149,7 +149,7 @@ header {
 .calendar-wrapper {
   width: max-content;
   box-shadow: #8080801f 3px 3px 5px;
-  padding: .3rem;
+  padding: 5px;
   border-radius: 4px;
   position: absolute;
   left: 20%;
@@ -158,28 +158,28 @@ header {
 
 .calendar {
   display: grid;
-  grid-template-columns: repeat(7, 2rem);
-  grid-auto-rows: 2rem;
-  gap: 0.5rem;
-  padding: 0.5rem;
+  grid-template-columns: repeat(7, 32px);
+  grid-auto-rows: 32px;
+  gap: 8px;
+  padding: 8px;
   font-weight: 500;
 }
 
 .weekdays {
-  padding: 0.5rem;
+  padding: 8px;
   display: grid;
-  grid-template-columns: repeat(7, 2rem);
-  grid-template-rows: 2rem;
+  grid-template-columns: repeat(7, 32px);
+  grid-template-rows: 32px;
   border-bottom: 1px solid #3C3C431E;
   font-weight: 500;
-  gap: 0.5rem;
+  gap: 8px;
   align-items: end;
   text-align: center;
 }
 
 .cell {
   background-color: white;
-  font-size: 0.7rem;
+  font-size: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
