@@ -4,7 +4,6 @@
   <DatePicker
     @input="setDate"
     :value="date"
-    :openOnDate="new Date(2021, 6)"
     :inputStyle="{background: 'lightgrey'}"
   />
 </template>

@@ -57,13 +57,13 @@ import {dow, months, range, sum, roundUpToMultipleOf} from '../utils.js';
 export default {
   name: 'DatePicker',
   props: {
-    openOnDate: {type: Date, required: false},
+    openOnDate: {type: Date, default: () => new Date()},
     value: {type: Date, required: false},
     inputStyle: {type: [String, Object], required: false}
   },
   emits: ['input'],
   setup(props, {emit}) {
-    const openMonthDate = ref(new Date(props.openOnDate?.getTime()));
+    const openMonthDate = ref(new Date(props.openOnDate.getTime()));
 
     const open = ref(false);
 
