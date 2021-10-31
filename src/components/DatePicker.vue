@@ -1,43 +1,50 @@
 <template>
-  <input @click="open = !open" :style="inputStyle" type="text" readonly :value="selectedDate?.toLocaleDateString()">
-  <div ref="calendar">
-    <div  v-if="open" class="calendar-wrapper">
-      <header>
-        <div
-            @click="() => setMonth('-')"
-            class="arrow"
-        >&lt;
+  <div class="calendar-root">
+    <input
+      @click="open = !open"
+      :style="inputStyle"
+      type="text"
+      readonly
+      :value="selectedDate?.toLocaleDateString()">
+    <div style="position: relative" ref="calendar">
+      <div v-if="open" class="calendar-wrapper">
+        <header>
+          <div
+              @click="() => setMonth('-')"
+              class="arrow"
+          >&lt;
+          </div>
+          <div>{{ months[openMonthDate.getMonth()] }} {{ openMonthDate.getFullYear() }}</div>
+          <div
+              @click="() => setMonth('+')"
+              class="arrow"
+          >&gt;
+          </div>
+        </header>
+        <div class="weekdays">
+          <div
+              v-for="day in dow"
+          >{{ day }}
+          </div>
         </div>
-        <div>{{ months[openMonthDate.getMonth()] }} {{ openMonthDate.getFullYear() }}</div>
-        <div
-            @click="() => setMonth('+')"
-            class="arrow"
-        >&gt;
+        <div class="calendar">
+          <div
+              class="cell"
+              v-for="n in startDate"
+          ></div>
+          <div
+              @click="() => setDate(date)"
+              v-for="date in daysInMonth"
+              class="cell"
+              :class="{selected: date.getTime() === value?.getTime()}"
+          >
+            <div>{{ date.getDate() }}</div>
+          </div>
+          <div
+              class="cell"
+              v-for="n in (numberOfCells - amountOfDaysInMonth - startDate)"
+          ></div>
         </div>
-      </header>
-      <div class="weekdays">
-        <div
-            v-for="day in dow"
-        >{{ day }}
-        </div>
-      </div>
-      <div class="calendar">
-        <div
-            class="cell"
-            v-for="n in startDate"
-        ></div>
-        <div
-            @click="() => setDate(date)"
-            v-for="date in daysInMonth"
-            class="cell"
-            :class="{selected: date.getTime() === value?.getTime()}"
-        >
-          <div>{{ date.getDate() }}</div>
-        </div>
-        <div
-            class="cell"
-            v-for="n in (numberOfCells - amountOfDaysInMonth - startDate)"
-        ></div>
       </div>
     </div>
   </div>
@@ -117,7 +124,7 @@ export default {
   },
   mounted() {
     document.addEventListener('click', ({target}) => {
-      if(target.contains(this.$refs.calendar)){
+      if (target.contains(this.$refs.calendar)) {
         this.open = false;
       }
     })
@@ -126,17 +133,23 @@ export default {
 </script>
 
 <style scoped>
+.calendar-root{
+  width: max-content;
+  position: relative;
+  display: inline-block;
+}
 header {
   display: flex;
   justify-content: space-between;
 }
 
 .calendar-wrapper {
-  margin: 0 auto;
   width: max-content;
   box-shadow: #8080801f 3px 3px 5px;
   padding: .3rem;
   border-radius: 4px;
+  position: absolute;
+  left: 20%;
 }
 
 .calendar {

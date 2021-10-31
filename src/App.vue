@@ -5,7 +5,7 @@
     @input="setDate"
     :value="date"
     :openOnDate="new Date(2021, 6)"
-    :inputStyle="{background: 'yellow'}"
+    :inputStyle="{background: 'lightgrey'}"
   />
 </template>
 
