@@ -1,9 +1,11 @@
 <template>
-  <h1>{{date}}</h1>
+  <h1 v-if="date">{{date}}</h1>
+  <h1 v-else>Please select a date</h1>
   <DatePicker
     @input="setDate"
     :value="date"
     :openOnDate="new Date(2021, 6)"
+    :inputStyle="{background: 'yellow'}"
   />
 </template>
 
