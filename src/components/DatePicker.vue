@@ -37,7 +37,7 @@
           <div
               @click="() => setDate(date)"
               v-for="date in daysInMonth"
-              class="cell"
+              class="cell selectable"
               :class="{selected: date.getTime() === value?.getTime()}"
           >
             <div>{{ date.getDate() }}</div>
@@ -191,12 +191,12 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
   border-radius: 4px;
   transition: 150ms ease-in-out;
 }
 
-.cell:hover {
+.selectable.cell:hover {
+  cursor: pointer;
   background: cornflowerblue;
   color: white;
 }
