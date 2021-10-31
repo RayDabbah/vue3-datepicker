@@ -1,6 +1,7 @@
 {
   "name": "vue3-datepicker",
   "version": "0.0.0",
+  "main": "src/components/DatePicker.vue",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
