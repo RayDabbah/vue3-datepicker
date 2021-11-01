@@ -38,7 +38,7 @@
               @click="() => setDate(date)"
               v-for="date in daysInMonth"
               class="cell selectable"
-              :class="{selected: date.getTime() === value?.getTime()}"
+              :class="{selected: datesEqual(date, value)}"
           >
             <div>{{ date.getDate() }}</div>
           </div>
@@ -54,7 +54,7 @@
 
 <script>
 import {ref, computed} from 'vue';
-import {dow, months, range, sum, roundUpToMultipleOf} from '../utils.js';
+import {dow, months, range, sum, roundUpToMultipleOf, datesEqual} from '../utils.js';
 
 export default {
   name: 'DatePicker',
@@ -66,7 +66,7 @@ export default {
   },
   emits: ['input'],
   setup(props, {emit}) {
-    const openMonthDate = ref(new Date(props.openOnDate.getTime()));
+    const openMonthDate = ref(props.value || new Date(props.openOnDate.getTime()));
 
     const open = ref(false);
 
@@ -123,6 +123,7 @@ export default {
       selectedDate,
       setDate,
       open,
+      datesEqual,
     };
   },
   mounted() {

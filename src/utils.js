@@ -20,3 +20,7 @@ export const sum = val1 => operator => val2 => {
 }
 
 export const roundUpToMultipleOf = (multiple, num) => Math.ceil(num / multiple) * multiple;
+
+const dateValues = date => [date.getFullYear(), date.getMonth(), date.getDate()]
+
+export const datesEqual = (date1, date2) => dateValues(date1).join('') === dateValues(date2).join('')

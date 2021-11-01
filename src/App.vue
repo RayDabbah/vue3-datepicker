@@ -16,7 +16,7 @@ import DatePicker from "./components/DatePicker.vue";
 export default defineComponent({
   name: "App",
   setup() {
-    const date = ref();
+    const date = ref(new Date(2021, 8, 11));
 
     const setDate = (newDate) => (date.value = newDate);
 
