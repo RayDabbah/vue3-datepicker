@@ -52,88 +52,72 @@
   </div>
 </template>
 
-<script>
-import {ref, computed} from 'vue';
+<script setup>
+import {ref, computed, onMounted, defineProps, defineEmits} from 'vue';
 import {dow, months, range, sum, roundUpToMultipleOf, datesEqual} from '../utils.js';
 
-export default {
-  name: 'DatePicker',
-  props: {
-    openOnDate: {type: Date, default: () => new Date()},
-    value: {type: Date, required: false},
-    inputStyle: {type: [String, Object], required: false},
-    stayOpen: {type: Boolean, default: false,},
-  },
-  emits: ['input'],
-  setup(props, {emit}) {
-    const openMonthDate = ref(props.value || new Date(props.openOnDate.getTime()));
+const props = defineProps({
+  openOnDate: {type: Date, default: () => new Date()},
+  value: {type: Date, required: false},
+  inputStyle: {type: [String, Object], required: false},
+  stayOpen: {type: Boolean, default: false,},
+});
 
-    const open = ref(false);
+const calendar = ref(null)
+const emit = defineEmits(['input'],)
 
-    const year = computed(() => openMonthDate.value.getFullYear());
+const openMonthDate = ref(props.value || new Date(props.openOnDate.getTime()));
 
-    const month = computed(() => openMonthDate.value.getMonth());
+const open = ref(false);
 
-    const selectedDate = ref(null)
+const year = computed(() => openMonthDate.value.getFullYear());
 
-    const startDate = computed(() =>
-        new Date(year.value, month.value).getDay()
-    );
+const month = computed(() => openMonthDate.value.getMonth());
 
-    const amountOfDaysInMonth = computed(
-        () => 40 - new Date(year.value, month.value, 40).getDate()
-    );
+const selectedDate = ref(null)
 
-    const daysInMonth = computed(() =>
-        range(amountOfDaysInMonth.value, 1).map(
-            (date) =>
-                new Date(
-                    openMonthDate.value.getFullYear(),
-                    openMonthDate.value.getMonth(),
-                    date
-                )
-        )
-    );
+const startDate = computed(() =>
+    new Date(year.value, month.value).getDay()
+);
 
-    const setMonth = (operator) =>
-        (openMonthDate.value = new Date(
-            openMonthDate.value.getFullYear(),
-            sum(openMonthDate.value.getMonth())(operator)(1)
-        ));
+const amountOfDaysInMonth = computed(
+    () => 40 - new Date(year.value, month.value, 40).getDate()
+);
 
-    const numberOfCells = computed(() =>
-        roundUpToMultipleOf(7, amountOfDaysInMonth.value + startDate.value)
-    );
+const daysInMonth = computed(() =>
+    range(amountOfDaysInMonth.value, 1).map(
+        (date) =>
+            new Date(
+                openMonthDate.value.getFullYear(),
+                openMonthDate.value.getMonth(),
+                date
+            )
+    )
+);
 
-    const setDate = d => {
-      selectedDate.value = d;
-      emit('input', d)
-    }
+const setMonth = (operator) =>
+    (openMonthDate.value = new Date(
+        openMonthDate.value.getFullYear(),
+        sum(openMonthDate.value.getMonth())(operator)(1)
+    ));
 
+const numberOfCells = computed(() =>
+    roundUpToMultipleOf(7, amountOfDaysInMonth.value + startDate.value)
+);
 
-    return {
-      startDate,
-      daysInMonth,
-      numberOfCells,
-      dow,
-      amountOfDaysInMonth,
-      months,
-      openMonthDate,
-      setMonth,
-      selectedDate,
-      setDate,
-      open,
-      datesEqual,
-    };
-  },
-  mounted() {
-    document.addEventListener('click', ({target}) => {
-      if (target.contains(this.$refs.calendar)) {
-        this.open = false;
-      }
-    })
-  }
+const setDate = d => {
+  selectedDate.value = d;
+  emit('input', d)
 };
+
+onMounted(() => {
+  document.addEventListener('click', ({target}) => {
+    if (target.contains(calendar.value)) {
+      open.value = false;
+    }
+  })
+})
+
 </script>
 
 <style scoped>
@@ -152,11 +136,13 @@ header {
   position: relative;
   z-index: 1000;
 }
-.toggle-calendar-wrapper{
+
+.toggle-calendar-wrapper {
   position: absolute;
   left: 20%;
 
 }
+
 .calendar-wrapper {
   width: max-content;
   box-shadow: #8080801f 3px 3px 5px;
